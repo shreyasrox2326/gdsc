@@ -30,11 +30,22 @@
             </div>
         </div>
     </div>
-    <form id="submissionForm" style="margin-left: 40%;" action="/submit" method="post">
+    <form id="submissionForm" style="margin-left: 20%;" action="/submit" method="post">
         <label for="userInput">User Input:</label><br>
-        <input type="text" id="userInput" name="userInput" value=""><br>
-        <input type="submit" value="Submit">
+        <input type="text" id="userInput" name="userInput" value="" style="width: 80%;"><br>
+        <input type="submit" value="Submit" 
+            style="border-radius: 5px; background-color: #2563eb; color: #ffffff; padding: 5px; margin-top: 10px; cursor: pointer; transition: background-color 0.3s, transform 0.2s;"
+            onmouseover="this.style.backgroundColor='#1d4ed8'; this.style.transform='scale(1.05)';"
+            onmouseout="this.style.backgroundColor='#2563eb'; this.style.transform='scale(1)';"
+            onmousedown="this.style.backgroundColor='#1e40af'; this.style.transform='scale(0.98)';"
+            onmouseup="this.style.backgroundColor='#1d4ed8'; this.style.transform='scale(1.05)';">
     </form>
+        <div style="margin: 5% 15% 0 15%; width: 70%; border-radius: 20px; background-color: #A2BCF6; padding: 20px;">
+        <b><center><p style = "font-size: 20px;">Submissions:</p> </center></b>
+        <div id="submissions"></div>
+    </div>
+
+
     <footer class="max-w-6xl mx-auto text-center py-4">
         <p>Shreyas Marwah</p>
     </footer>
@@ -97,7 +108,7 @@
         });
 
 
-        document.getElementById('submissionForm').addEventListener('submit', function(event) {
+        document.getElementById('submissionForm').addEventListener('submit', function (event) {
             const userInput = document.getElementById('userInput').value;
 
             // Example: Basic validation
@@ -106,11 +117,32 @@
                 event.preventDefault(); // Stop submission if validation fails
             }
         });
+        async function loadSubmissions() {
+            const response = await fetch('/submissions');
+            const data = await response.json();
 
+            const submissionsDiv = document.getElementById('submissions');
+            submissionsDiv.innerHTML = ''; // Clear any existing content
 
-        
+            if (data.length === 0) {
+                submissionsDiv.innerHTML = '<p>No submissions yet.</p>';
+            } else {
+                data.forEach(submission => {
+                    const submissionElement = document.createElement('div');
+                    submissionElement.innerHTML = `
+                        <p><strong>Input:</strong> ${submission.userInput}</p>
+                        <hr>
+                    `;
+                    submissionsDiv.appendChild(submissionElement);
+                });
+            }
+        }
+
+        // Load submissions when the page loads
+        window.onload = loadSubmissions;
     </script>
-    
+
+
 </body>
 
 </html>

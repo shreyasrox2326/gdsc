@@ -10,7 +10,18 @@ app.use(bodyParser.json());
 
 // Serve the HTML form file
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/shreyas.html'); // Make sure the path to shreyas.html is correct
+    res.sendFile(__dirname + '/shreyas.html');
+});
+
+// Fetch and return past submissions as JSON
+app.get('/submissions', (req, res) => {
+    fs.readFile('submissions.json', 'utf8', (err, data) => {
+        if (err) {
+            // If there's an error (like file not found), return an empty array
+            return res.json([]);
+        }
+        res.json(JSON.parse(data));
+    });
 });
 
 // Handle form submissions
@@ -23,7 +34,6 @@ app.post('/submit', (req, res) => {
         const fileData = fs.readFileSync('submissions.json', 'utf8');
         data = JSON.parse(fileData);
     } catch (error) {
-        // If file doesn't exist or there's an error, proceed with empty data array
         console.log('No existing file or error reading file, starting fresh.');
     }
 
