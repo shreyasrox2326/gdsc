@@ -61,7 +61,7 @@ app.post('/submit', async (req, res) => {
         await collection.insertOne(formData);
         res.send(`
             <h1>Submission received successfully!</h1>
-            <button onclick="window.location.href='http://localhost:3000';" style="padding: 10px 20px; border-radius: 5px; background-color: #2563eb; color: #fff; border: none; cursor: pointer;">
+            <button onclick="window.location.href='https://gdsc-neon-zeta.vercel.app/';" style="padding: 10px 20px; border-radius: 5px; background-color: #2563eb; color: #fff; border: none; cursor: pointer;">
                 Go Back to Form
             </button>
         `);
