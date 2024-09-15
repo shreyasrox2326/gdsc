@@ -55,11 +55,14 @@ app.post('/submit', async (req, res) => {
     const formData = req.body;
     const userInput = formData.userInput;
 
+    console.log('Received input:', userInput); // Log received input
+
     // Regular expression to match allowed characters: alphabets, numbers, and basic punctuation
-    const regex = /^[A-Za-z0-9.,!?;:'"()[]{}\-_\s]*$/;
+    const regex = /^[A-Za-z0-9.,!?;:'"()[\]{}\-_\s]*$/;
 
     // Validate input
     if (!regex.test(userInput)) {
+        console.log('Invalid input detected.'); // Log if input is invalid
         return res.status(400).send(`
             <h1>Invalid input. Please use only alphabets, numbers, and basic punctuation characters.</h1>
             <button onclick="window.location.href='https://gdsc-neon-zeta.vercel.app/';" style="padding: 10px 20px; border-radius: 5px; background-color: #2563eb; color: #fff; border: none; cursor: pointer;">
