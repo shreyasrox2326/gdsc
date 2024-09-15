@@ -1,8 +1,29 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const fs = require('fs');
+const mongoose = require('mongoose');
+const path = require('path');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+
+// MongoDB connection URI (replace with your MongoDB connection string)
+const mongoURI = 'mongodb+srv://shreyasrox2326:SoaD5D8in2HLVQw4@cluster0.hyp2a.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'; // Update with your MongoDB URI
+
+// Connect to MongoDB
+mongoose.connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+.then(() => console.log('MongoDB connected'))
+.catch(err => console.error('MongoDB connection error:', err));
+
+// Define a schema and model for form submissions
+const submissionSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    message: String
+}, { timestamps: true });
+
+const Submission = mongoose.model('Submission', submissionSchema);
 
 // Middleware to parse POST request body data
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -10,41 +31,27 @@ app.use(bodyParser.json());
 
 // Serve the HTML form file
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/shreyas.html');
+    res.sendFile(path.join(__dirname, 'shreyas.html'));
 });
 
 // Fetch and return past submissions as JSON
-app.get('/submissions', (req, res) => {
-    fs.readFile('submissions.json', 'utf8', (err, data) => {
-        if (err) {
-            // If there's an error (like file not found), return an empty array
-            return res.json([]);
-        }
-        res.json(JSON.parse(data));
-    });
+app.get('/submissions', async (req, res) => {
+    try {
+        const submissions = await Submission.find().exec();
+        res.json(submissions);
+    } catch (err) {
+        console.error('Error fetching submissions:', err);
+        res.status(500).json({ error: 'Failed to fetch submissions' });
+    }
 });
 
 // Handle form submissions
-app.post('/submit', (req, res) => {
+app.post('/submit', async (req, res) => {
     const formData = req.body;
 
-    // Read existing data from the JSON file (or create it if it doesn't exist)
-    let data = [];
     try {
-        const fileData = fs.readFileSync('submissions.json', 'utf8');
-        data = JSON.parse(fileData);
-    } catch (error) {
-        console.log('No existing file or error reading file, starting fresh.');
-    }
-
-    // Append the new form data
-    data.push(formData);
-
-    // Write the updated data back to the JSON file
-    fs.writeFile('submissions.json', JSON.stringify(data, null, 2), (err) => {
-        if (err) {
-            return res.status(500).send('Error saving data');
-        }
+        const submission = new Submission(formData);
+        await submission.save();
 
         // Send a success message with a button to go back to the main page
         res.send(`
@@ -53,9 +60,11 @@ app.post('/submit', (req, res) => {
                 Go Back to Form
             </button>
         `);
-    });
+    } catch (err) {
+        console.error('Error saving submission:', err);
+        res.status(500).send('Error saving data');
+    }
 });
-
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
