@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GDSC SNIoE - Dev Team Recruitments</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+    <div class="hero bg-blue-600 text-white py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 id="gdsc-snioe" class="text-4xl sm:text-5xl font-bold mb-4">GDSC SNIoE</h1>
+            <p class="text-xl">Dev Team Recruitments</p>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12" role="main">
+        <div class="carousel-container mb-8 relative">
+            <div class="carousel-track flex transition-transform duration-300 ease-in-out">
+                <!-- Carousel items go here -->
+            </div>
+            <button id="prevBtn"
+                class="absolute left-1/4 bottom--1px transform -translate-y-1/2 bg-blue-500 text-white px-4 py-2 rounded-l">Previous</button>
+            <button id="nextBtn"
+                class="absolute right-1/4 bottom--1px transform -translate-y-1/2 bg-blue-500 text-white px-4 py-2 rounded-r">Next</button>
+            <div id="positionIndicator"
+                class="absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded text-gray-800 font-bold">
+            </div>
+        </div>
+    </div>
+    <form style="margin-left: 40%;" action="">
+        <label for="fname">First name:</label><br>
+        <input type="text" id="fname" name="fname" value=""><br>
+        <label for="lname">Last name:</label><br>
+        <input type="text" id="lname" name="lname" value=""><br><br>
+        <input type="submit" value="Submit">
+    </form>
+    <footer class="max-w-6xl mx-auto text-center py-4">
+        <p>Shreyas Marwah</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const track = document.querySelector('.carousel-track');
+            const slides = [
+                { title: "Style this Page", content: "This page is your starting point. It's pretty simple right now, but we want you to make it shine! Use TailwindCSS (or any other CSS you prefer, even plain CSS) to enhance the design, improve the layout, and give it your personal touch." },
+                { title: "Create the Input Box", content: "You'll notice there's a placeholder here for an input box. Your job is to add that input box so users can submit their text. Style it, make sure it works smoothly, and ensure it looks good on all devices, whether it's a phone, tablet, or desktop." },
+                { title: "Build a Submission System", content: "Next up, you'll need to set up a system to save what users submit in the input box. You can use any backend technology or storage method you like (e.g., a database, file system). The important thing is that the data is saved and can be retrieved later." },
+                { title: "Display the Submissions", content: "Once you've got submissions coming in, you'll want to display them. This could be a simple list in html, or something more elaborate like an admin panel with filtering options." },
+                { title: "Go Live", content: "When everything is working, it's time to take your project live! Deploy this page to a hosting service and method of your choice, and make sure it's accessible to anyone with the link." },
+                { title: "Add Some Documentation", content: "We'd love to hear about how you approached this task. Write a brief README file that explains what you did, the tools you used, the problems you faced and how to run everything locally." },
+                { title: "Take Your Time, But Not Too Much!", content: "You have 2 weeks (until 12:00 AM, 16th September 2024) to complete this task. We're not looking for perfection, we're interested in seeing how you approach problem-solving and design." },
+                { title: "How We'll Evaluate", content: "Design & Usability: How good does this page look, and how easy is it to use? Functionality: Does everything work as expected? Code Quality: Is your code clean, organized, and easy to follow? Creativity: Did you add any unique or innovative features? Deployment: Is the page live and accessible via the link you provide? Your Approach: Did you clearly explain your approach in the README?" },
+                { title: "How to Submit", content: "When you're ready, push your code to a GitHub repository and share the link along with the URL of your live page. Make sure we can access everything so we can check out your work!" },
+                { title: "Good Luck!", content: "We're excited to see what you come up with. Remember, this is your chance to show us your skills and creativity. Good luck!" }
+            ];
+
+            slides.forEach((slide, index) => {
+                const slideElement = document.createElement('div');
+                slideElement.className = 'w-full flex-shrink-0 px-2';
+                slideElement.innerHTML = `
+                    <div class="content-section bg-white rounded-lg p-8 h-full shadow-lg">
+                        <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">${slide.title}</h2>
+                        <p class="text-gray-600">${slide.content}</p>
+                    </div>
+                `;
+                track.appendChild(slideElement);
+            });
+
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const positionIndicator = document.getElementById('positionIndicator');
+            let currentIndex = 0;
+
+            function updateCarousel() {
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+                positionIndicator.textContent = `${currentIndex + 1}/${slides.length}`;
+                prevBtn.disabled = currentIndex === 0;
+                nextBtn.disabled = currentIndex === slides.length - 1;
+            }
+
+            prevBtn.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateCarousel();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentIndex < slides.length - 1) {
+                    currentIndex++;
+                    updateCarousel();
+                }
+            });
+
+            updateCarousel();
+        });
+
+        
+    </script>
+    
+</body>
+
+</html>
