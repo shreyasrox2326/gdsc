@@ -10,6 +10,12 @@ const port = process.env.PORT || 3000;
 // Retrieve MongoDB URI from environment variable
 const uri = process.env.MONGODB_URI;
 
+// Check if the URI is defined
+if (!uri) {
+  console.error('MongoDB URI is not defined. Please set the MONGODB_URI environment variable.');
+  process.exit(1);
+}
+
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
@@ -70,3 +76,4 @@ app.post('/submit', async (req, res) => {
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
+//efefe
