@@ -45,9 +45,17 @@ app.post('/submit', (req, res) => {
         if (err) {
             return res.status(500).send('Error saving data');
         }
-        res.send('Form submitted successfully!');
+
+        // Send a success message with a button to go back to the main page
+        res.send(`
+            <h1>Submission received successfully!</h1>
+            <button onclick="window.location.href='http://localhost:3000';" style="padding: 10px 20px; border-radius: 5px; background-color: #2563eb; color: #fff; border: none; cursor: pointer;">
+                Go Back to Form
+            </button>
+        `);
     });
 });
+
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
