@@ -53,6 +53,15 @@ app.get('/submissions', async (req, res) => {
 // Handle form submissions
 app.post('/submit', async (req, res) => {
     const formData = req.body;
+    const userInput = formData.userInput;
+
+    // Regular expression to match allowed characters: alphabets, numbers, and basic punctuation
+    const regex = /^[A-Za-z0-9.,!?;:'"()[]{}\-_\s]*$/;
+
+    // Validate input
+    if (!regex.test(userInput)) {
+        return res.status(400).send('Invalid input. Please use only alphabets, numbers, and basic punctuation characters.');
+    }
 
     try {
         await client.connect();
@@ -61,7 +70,7 @@ app.post('/submit', async (req, res) => {
         await collection.insertOne(formData);
         res.send(`
             <h1>Submission received successfully!</h1>
-            <button onclick="window.location.href='https://gdsc-neon-zeta.vercel.app/';" style="padding: 10px 20px; border-radius: 5px; background-color: #2563eb; color: #fff; border: none; cursor: pointer;">
+            <button onclick="window.location.href='http://localhost:3000';" style="padding: 10px 20px; border-radius: 5px; background-color: #2563eb; color: #fff; border: none; cursor: pointer;">
                 Go Back to Form
             </button>
         `);
@@ -76,4 +85,3 @@ app.post('/submit', async (req, res) => {
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
-//efefe

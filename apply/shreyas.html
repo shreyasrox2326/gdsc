@@ -112,22 +112,22 @@
         });
 
 
-        document.getElementById('submissionForm').addEventListener('submit', function (event) {
-            const userInput = document.getElementById('userInput').value;
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('submissionForm').addEventListener('submit', function (event) {
+                const userInput = document.getElementById('userInput').value;
 
-            // Example: Basic validation
-            if (!userInput) {
-                alert('Please fill the input');
-                event.preventDefault(); // Stop submission if validation fails
-            }
-        });
+                // Regular expression to match allowed characters: alphabets, numbers, and basic punctuation
+                const regex = /^[A-Za-z0-9.,!?;:'"()[]{}\-_\s]*$/;
 
-        async function loadSubmissions() {
-            try {
-                const response = await fetch('/submissions');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                // Validate input
+                if (!regex.test(userInput)) {
+                    alert('Invalid input. Please use only alphabets, numbers, and basic punctuation characters.');
+                    event.preventDefault(); // Stop submission if validation fails
                 }
+            });
+
+            async function loadSubmissions() {
+                const response = await fetch('/submissions');
                 const data = await response.json();
 
                 const submissionsDiv = document.getElementById('submissions');
@@ -145,14 +145,11 @@
                         submissionsDiv.appendChild(submissionElement);
                     });
                 }
-            } catch (error) {
-                console.error('Error loading submissions:', error);
             }
-        }
 
-        // Load submissions when the page loads
-        window.onload = loadSubmissions;
-    </script>
+            // Load submissions when the page loads
+            window.onload = loadSubmissions;
+        });    </script>
 
 
 </body>
