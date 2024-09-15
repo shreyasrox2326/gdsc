@@ -31,10 +31,8 @@
         </div>
     </div>
     <form id="submissionForm" style="margin-left: 40%;" action="/submit" method="post">
-        <label for="fname">First name:</label><br>
-        <input type="text" id="fname" name="fname" value=""><br>
-        <label for="lname">Last name:</label><br>
-        <input type="text" id="lname" name="lname" value=""><br><br>
+        <label for="userInput">User Input:</label><br>
+        <input type="text" id="userInput" name="userInput" value=""><br>
         <input type="submit" value="Submit">
     </form>
     <footer class="max-w-6xl mx-auto text-center py-4">
@@ -98,9 +96,17 @@
             updateCarousel();
         });
 
+
         document.getElementById('submissionForm').addEventListener('submit', function(event) {
-            alert('Form submitted!');
+            const userInput = document.getElementById('userInput').value;
+
+            // Example: Basic validation
+            if (!userInput) {
+                alert('Please fill the input');
+                event.preventDefault(); // Stop submission if validation fails
+            }
         });
+
 
         
     </script>
