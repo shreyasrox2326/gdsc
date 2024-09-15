@@ -1,7 +1,7 @@
 {
   "name": "apply",
   "version": "1.0.0",
-  "description": "",
+  "description": "A server application that uses MongoDB to handle form submissions.",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.3",
-    "express": "^4.21.0"
+    "express": "^4.21.0",
+    "mongoose": "^7.2.0" 
   }
 }
