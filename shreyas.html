@@ -30,7 +30,7 @@
             </div>
         </div>
     </div>
-    <form style="margin-left: 40%;" action="">
+    <form id="submissionForm" style="margin-left: 40%;" action="/submit" method="post">
         <label for="fname">First name:</label><br>
         <input type="text" id="fname" name="fname" value=""><br>
         <label for="lname">Last name:</label><br>
@@ -96,6 +96,10 @@
             });
 
             updateCarousel();
+        });
+
+        document.getElementById('submissionForm').addEventListener('submit', function(event) {
+            alert('Form submitted!');
         });
 
         
