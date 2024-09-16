@@ -64,10 +64,76 @@ app.post('/submit', async (req, res) => {
     if (!regex.test(userInput)) {
         console.log('Invalid input detected.'); // Log if input is invalid
         return res.status(400).send(`
-            <h1>Invalid input. Please use only alphabets, numbers, and basic punctuation characters.</h1>
-            <button onclick="window.location.href='https://gdsc-neon-zeta.vercel.app/';" style="padding: 10px 20px; border-radius: 5px; background-color: #2563eb; color: #fff; border: none; cursor: pointer;">
-                Go Back to Form
-            </button>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Guidelines</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2563eb;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .allowed-chars {
+            background-color: #e5e7eb;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #2563eb;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #1e40af;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Input Guidelines</h1>
+        <p>Please use only the following characters in your input:</p>
+        <div class="allowed-chars">
+            <strong>Allowed characters:</strong><br>
+            - Letters (A-Z, a-z)<br>
+            - Digits (0-9)<br>
+            - Punctuation marks (. , ! ? ; : ' " ( ) [ ] { } - _)<br>
+            - Whitespace (space, tab, newline)
+        </div>
+        <p>Special characters outside these are not allowed.</p>
+        <a href="https://gdsc-neon-zeta.vercel.app/" class="button">Go Back to Form</a>
+    </div>
+</body>
+</html>
         `);
     }
 
@@ -77,10 +143,71 @@ app.post('/submit', async (req, res) => {
         const collection = database.collection('submissions'); // Replace with your collection name
         await collection.insertOne(formData);
         res.send(`
-            <h1>Submission received successfully!</h1>
-            <button onclick="window.location.href='https://gdsc-neon-zeta.vercel.app/';" style="padding: 10px 20px; border-radius: 5px; background-color: #2563eb; color: #fff; border: none; cursor: pointer;">
-                Go Back to Form
-            </button>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submission Successful</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #10b981;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .icon {
+            font-size: 64px;
+            color: #10b981;
+            margin-bottom: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #2563eb;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #1e40af;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">✅</div>
+        <h1>Submission received successfully!</h1>
+        <p>Thank you for your submission. We have received your information.</p>
+        <button onclick="window.location.href='https://gdsc-neon-zeta.vercel.app/';" class="button">
+            Go Back to Form
+        </button>
+    </div>
+</body>
+</html>
         `);
     } catch (error) {
         console.error('Error saving submission:', error);
