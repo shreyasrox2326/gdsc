@@ -32,7 +32,7 @@
     </div>
     <form id="submissionForm" style="margin-left: 20%;" action="/submit" method="post">
         <label for="userInput">User Input:</label><br>
-        <input type="text" id="userInput" name="userInput" value="" style="width: 80%;"><br>
+        <input type="text" id="userInput" name="userInput" value="" style="width: 80%;" pattern="[A-Za-z0-9\s.,?+\-/\*:;]+" title="Only alphanumeric characters, spaces, and the following punctuation are allowed: . , ? + - / * : ;"><br>
         <input type="submit" value="Submit"
             style="border-radius: 5px; background-color: #2563eb; color: #ffffff; padding: 5px; margin-top: 10px; cursor: pointer; transition: background-color 0.3s, transform 0.2s;"
             onmouseover="this.style.backgroundColor='#1d4ed8'; this.style.transform='scale(1.05)';"
@@ -117,13 +117,9 @@
                 const userInput = document.getElementById('userInput').value;
 
                 // Regular expression to match allowed characters: alphabets, numbers, and basic punctuation
-                const regex = /^[A-Za-z0-9.,!?;:'"()[]{}\-_\s]*$/;
+                const regex = /^[A-Za-z0-9.,!?;:'"(){}\-\s]*$/;
 
-                // Validate input
-                if (!regex.test(userInput)) {
-                    alert('Invalid input. Please use only alphabets, numbers, and basic punctuation characters.');
-                    event.preventDefault(); // Stop submission if validation fails
-                }
+
             });
 
             async function loadSubmissions() {
