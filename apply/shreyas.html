@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-gray-100">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GDSC SNIoE - Dev Team Recruitments</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="h-full flex flex-col">
     <header class="bg-blue-600 text-white py-20 px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto text-center">
@@ -19,28 +21,39 @@
             <div id="carouselTrack" class="carousel-track flex transition-transform duration-300 ease-in-out">
                 <!-- Carousel slides will be dynamically added here -->
             </div>
-            <button class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 transition-all duration-200" onclick="moveCarousel(-1)">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+            <button
+                class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 transition-all duration-200"
+                onclick="moveCarousel(-1)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    class="h-6 w-6">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
             </button>
-            <button class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 transition-all duration-200" onclick="moveCarousel(1)">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+            <button
+                class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 transition-all duration-200"
+                onclick="moveCarousel(1)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    class="h-6 w-6">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
             </button>
-            <div id="positionIndicator" class="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-2 py-1 rounded text-sm font-bold"></div>
+            <div id="positionIndicator"
+                class="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-2 py-1 rounded text-sm font-bold">
+            </div>
         </div>
 
         <div class="bg-white shadow-lg rounded-lg p-8">
             <h2 class="text-2xl font-bold mb-6 text-center">Submit Your Application</h2>
-            <form id="applicationForm" class="space-y-4">
+            <form id="applicationForm" class="space-y-4" action="/submit" method="post">
                 <div>
                     <label for="userInput" class="block text-sm font-medium text-gray-700">User Input</label>
-                    <input type="text" id="userInput" name="userInput" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <input type="text" id="userInput" name="userInput" required
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                 </div>
                 <div>
-                    <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors duration-200">Submit Application</button>
+                    <button type="submit"
+                        class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors duration-200">Submit
+                        Application</button>
                 </div>
             </form>
         </div>
@@ -105,19 +118,33 @@
         createCarouselSlides();
         updateCarousel();
 
-        document.getElementById('applicationForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const userInput = document.getElementById('userInput').value;
+        document.addEventListener('DOMContentLoaded', function () {
 
-            const submission = document.createElement('div');
-            submission.className = 'bg-white p-4 rounded-lg shadow mb-4';
-            submission.innerHTML = `<p class="font-bold">${userInput}</p>`;
+            async function loadSubmissions() {
+                const response = await fetch('/submissions');
+                const data = await response.json();
 
-            document.getElementById('submissions').prepend(submission);
+                const submissionsDiv = document.getElementById('submissions');
+                submissionsDiv.innerHTML = ''; // Clear any existing content
 
-            // Clear form
-            this.reset();
-        });
+                if (data.length === 0) {
+                    submissionsDiv.innerHTML = '<p>No submissions yet.</p>';
+                } else {
+                    data.forEach(submission => {
+                        const submissionElement = document.createElement('div');
+                        submissionElement.innerHTML = `
+                <p><strong>Input:</strong> ${submission.userInput}</p>
+                <hr>
+            `;
+                        submissionsDiv.appendChild(submissionElement);
+                    });
+                }
+            }
+
+            // Load submissions when the page loads
+            window.onload = loadSubmissions;
+        }); 
     </script>
 </body>
+
 </html>
